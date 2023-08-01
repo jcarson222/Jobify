@@ -1,8 +1,10 @@
+import "express-async-errors";
 import * as dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import morgan from "morgan";
 import mongoose from "mongoose";
+import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
 
 // routers
 import jobRouter from "./routes/jobRouter.js";
@@ -28,6 +30,8 @@ app.use("/api/v1/jobs", jobRouter);
 app.use("*", (req, res) => {
   res.status(404).json({ msg: "not found" });
 });
+
+app.use(errorHandlerMiddleware);
 
 app.use((err, req, res, next) => {
   console.log(err);
