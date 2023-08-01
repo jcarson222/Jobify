@@ -3,6 +3,9 @@ dotenv.config();
 import express from "express";
 import morgan from "morgan";
 
+// routers
+import jobRouter from "./routes/jobRouter.js";
+
 const app = express();
 app.use(express.json());
 
@@ -16,9 +19,10 @@ app.get("/", (req, res) => {
 
 app.post("/", (req, res) => {
   // console.log(req);
-
   res.json({ message: "Data received", data: req.body });
 });
+
+app.use("/api/v1/jobs", jobRouter);
 
 const port = process.env.PORT || 5100;
 
