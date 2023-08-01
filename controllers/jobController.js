@@ -1,4 +1,10 @@
-import { jobs } from "../server.js";
+import { nanoid } from "nanoid";
+
+// test jobs
+let jobs = [
+  { id: nanoid(), company: "apple", position: "front-end" },
+  { id: nanoid(), company: "google", position: "back-end" },
+];
 
 export const getAllJobs = async (req, res) => {
   res.status(200).json({ jobs });
@@ -17,13 +23,53 @@ export const getJob = async (req, res) => {
 };
 
 export const createJob = async (req, res) => {
-  res.json("create job");
-};
+  const { company, position } = req.body;
 
-export const updateJob = async (req, res) => {
-  res.json("update job");
+  if (!company || !position) {
+    return res.status(400).json({ msg: "please provide company and position" });
+  }
+
+  const id = nanoid(10);
+
+  const job = { company, position, id };
+
+  jobs.push(job);
+
+  res.status(200).json({ job });
 };
 
 export const deleteJob = async (req, res) => {
-  res.json("delete job");
+  const { id } = req.params;
+
+  const job = jobs.find((job) => job.id === id);
+
+  if (!job) {
+    return res.status(404).json({ msg: `no job with id ${id}` });
+  }
+
+  const newJobs = jobs.filter((job) => job.id !== id);
+
+  jobs = newJobs;
+
+  res.status(200).json({ msg: "job deleted" });
+};
+
+export const updateJob = async (req, res) => {
+  const { company, position } = req.body;
+  const { id } = req.params;
+
+  if (!company && !position) {
+    return res.status(400).json({ msg: "please provide company and position" });
+  }
+
+  const job = jobs.find((job) => job.id === id);
+
+  if (!job) {
+    return res.status(404).json({ msg: `no job with id ${id}` });
+  }
+
+  job.company = company;
+  job.position = position;
+
+  res.status(200).json({ msg: "job updated", job });
 };
