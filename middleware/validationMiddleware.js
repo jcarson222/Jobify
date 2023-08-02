@@ -1,5 +1,5 @@
 import { body, validationResult } from "express-validator";
-import { BadRequestError } from "../errors/customErrors";
+import { BadRequestError } from "../errors/customErrors.js";
 const withValidationErrors = (validateValues) => {
   return [
     validateValues,
@@ -21,4 +21,10 @@ export const validateTest = withValidationErrors([
     .isLength({ min: 3, max: 50 })
     .withMessage("name must be between 3 and 50 characters long")
     .trim(),
+]);
+
+export const validateJobInput = withValidationErrors([
+  body("company").notEmpty().withMessage("company is required"),
+  body("position").notEmpty().withMessage("position is required"),
+  body("jobLocation").notEmpty().withMessage("job location is required"),
 ]);

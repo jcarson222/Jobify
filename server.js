@@ -6,8 +6,6 @@ import morgan from "morgan";
 import mongoose from "mongoose";
 import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
 
-import { body, validationResult } from "express-validator";
-
 // routers
 import jobRouter from "./routes/jobRouter.js";
 
