@@ -20,10 +20,23 @@ app.get("/", (req, res) => {
   res.send("hello world");
 });
 
-app.post("/", (req, res) => {
-  // console.log(req);
-  res.json({ message: "Data received", data: req.body });
-});
+// app.post(
+//   "/",
+//   [body("name").notEmpty().withMessage("must provide name")],
+//   (req, res, next) => {
+//     const errors = validationResult(req);
+//     console.log(errors);
+//     if (!errors.isEmpty()) {
+//       const errorMessages = errors.array().map((error) => error.msg);
+//       return res.status(400).json({ errors: errorMessages });
+//     }
+//     next();
+//   },
+//   (req, res) => {
+//     const { name } = req.body;
+//     res.json({ message: "Data received", name: name });
+//   }
+// );
 
 app.use("/api/v1/jobs", jobRouter);
 
