@@ -8,6 +8,7 @@ import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
 
 // routers
 import jobRouter from "./routes/jobRouter.js";
+import authRouter from "./routes/authRouter.js";
 
 const app = express();
 app.use(express.json());
@@ -20,25 +21,9 @@ app.get("/", (req, res) => {
   res.send("hello world");
 });
 
-// app.post(
-//   "/",
-//   [body("name").notEmpty().withMessage("must provide name")],
-//   (req, res, next) => {
-//     const errors = validationResult(req);
-//     console.log(errors);
-//     if (!errors.isEmpty()) {
-//       const errorMessages = errors.array().map((error) => error.msg);
-//       return res.status(400).json({ errors: errorMessages });
-//     }
-//     next();
-//   },
-//   (req, res) => {
-//     const { name } = req.body;
-//     res.json({ message: "Data received", name: name });
-//   }
-// );
-
 app.use("/api/v1/jobs", jobRouter);
+
+app.use("/api/v1/auth", authRouter);
 
 app.use("*", (req, res) => {
   res.status(404).json({ msg: "not found" });
