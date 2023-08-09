@@ -1,5 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import User from "../models/UserModel.js";
+import { hashPassword } from "../utils/passwordUtils.js";
 
 export const login = (req, res) => {
   res.send("login");
@@ -9,6 +10,10 @@ export const register = async (req, res) => {
   // first user = admin
   const isFirstAccount = (await User.countDocuments()) === 0;
   req.body.role = isFirstAccount ? "admin" : "user";
+
+  // hash password
+  const hashedPassword = await hashPassword(req.body.password);
+  req.body.password = hashedPassword;
 
   const user = await User.create(req.body);
 
