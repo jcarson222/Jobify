@@ -3,7 +3,7 @@ import Job from "../models/JobModel.js";
 
 // GET ALL JOBS
 export const getAllJobs = async (req, res) => {
-  const jobs = await Job.find();
+  const jobs = await Job.find({});
 
   res.status(StatusCodes.OK).json({ jobs });
 };

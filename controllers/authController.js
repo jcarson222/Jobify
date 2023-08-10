@@ -13,11 +13,19 @@ export const login = async (req, res) => {
   if (!isValidUser) throw new UnauthenticatedError("invalid credentials");
 
   const token = createJWT({ userId: user._id, role: user.role });
-  console.log(token);
 
-  res
-    .status(StatusCodes.OK)
-    .json({ msg: `${user.name} logged in`, token: token });
+  const oneDay = 86400000;
+  //^^^ 1000ms * 60s * 60m * 24hr = one day (86400000ms)
+
+  // attach cookie to response
+  res.cookie("token", token, {
+    httpOnly: true,
+    // ^^^ can not be accessed by JavaScript running in the browser
+    expires: new Date(Date.now() + oneDay),
+    secure: process.env.NODE_ENV === "production",
+  });
+
+  res.status(StatusCodes.OK).json({ msg: `${user.name} logged in` });
 };
 
 export const register = async (req, res) => {
