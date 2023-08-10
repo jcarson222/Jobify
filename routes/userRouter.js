@@ -7,8 +7,8 @@ import {
   updateUser,
 } from "../controllers/userController.js";
 
-router.get("/current-user", getCurrentUser);
-router.get("/admin/app-stats", getApplicationStats);
-router.patch("/update-user", updateUser);
+router.route("/current-user").get(getCurrentUser);
+router.route("/admin/app-stats").get(getApplicationStats);
+router.route("/update-user").patch(updateUser);
 
 export default router;
