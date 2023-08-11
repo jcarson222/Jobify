@@ -1,6 +1,8 @@
 import { Router } from "express";
 const router = Router();
 
+import { validateUpdateUserInput } from "../middleware/validationMiddleware.js";
+
 import {
   getCurrentUser,
   getApplicationStats,
@@ -9,6 +11,6 @@ import {
 
 router.route("/current-user").get(getCurrentUser);
 router.route("/admin/app-stats").get(getApplicationStats);
-router.route("/update-user").patch(updateUser);
+router.route("/update-user").patch(validateUpdateUserInput, updateUser);
 
 export default router;
