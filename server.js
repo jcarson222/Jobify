@@ -21,8 +21,8 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-app.get("/", (req, res) => {
-  res.send("hello world");
+app.get("/api/v1/test", (req, res) => {
+  res.json({ msg: "test route" });
 });
 
 app.use("/api/v1/jobs", authenticateUser, jobRouter);
